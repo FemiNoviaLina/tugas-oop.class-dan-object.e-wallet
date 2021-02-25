@@ -20,9 +20,9 @@ public class App {
 
     public static void main(String[] args) {
         ListUser allUser = new ListUser();
-        allUser.allUser.add(new User("Ariana", "arianagrande@grande.com", "10000000", "password"));
-        allUser.allUser.add(new User("Shawn", "shawn@grande.com", "20000000", "itsshawnmendes"));
-        allUser.allUser.add(new User("Sel", "sel@grande.com", "30000000", "misselenag"));
+        allUser.allUser.add(new User("Ariana", "arianagrande@grande.com", "1111010111", "password"));
+        allUser.allUser.add(new User("Shawn", "shawn@grande.com", "2220003333", "itsshawnmendes"));
+        allUser.allUser.add(new User("Sel", "sel@grande.com", "1010101010", "misselenag"));
         User currentUser = null;
 
         boolean loggedIn = false;
@@ -30,16 +30,16 @@ public class App {
         while(true) {
             while(!loggedIn) {
                 System.out.println("Selamat Datang");
-                System.out.println("Apakah Anda sudah mempunyai akun? ('sudah' / 'belum')");
+                System.out.println("Sudah punya akun? ('sudah' / 'belum')");
                 System.out.println("(tekan enter untuk keluar)");
                 String val = scan.nextLine();
 
                 switch (val) {
                     case "sudah":
                         while (currentUser == null) {
-                            System.out.println("Masukkan nomor telepon anda");
+                            System.out.print("Nomor telepon kamu:");
                             String no = scan.nextLine();
-                            System.out.println("Masukkan password anda");
+                            System.out.print("Password:");
                             String pass = scan.nextLine();
                             if(login(allUser.allUser, no, pass, allUser) == null) continue;
                             else {
@@ -50,13 +50,13 @@ public class App {
                         }
                     case "belum":
                         while (currentUser == null) {
-                            System.out.println("Masukkan nama anda");
+                            System.out.print("Nama kamu: ");
                             String nama = scan.nextLine();
-                            System.out.println("Masukkan email anda");
+                            System.out.print("Email kamu: ");
                             String email = scan.nextLine();
-                            System.out.println("Masukkan nomor telepon anda");
+                            System.out.print("Nomor telepon kamu: ");
                             String phone = scan.nextLine();
-                            System.out.println("Masukkan password");
+                            System.out.print("Password: ");
                             String password = scan.nextLine();
                             currentUser = register(nama, email, phone, password, allUser.allUser);
                             allUser.allUser.add(register(nama, email, phone, password, allUser.allUser));
@@ -70,11 +70,13 @@ public class App {
                 while(loggedIn) {
                     System.out.println("Hai " + currentUser.nama + " !");
                     System.out.println("Mau apa hari ini?");
-                    System.out.println("1 Top Up");
-                    System.out.println("2 Transfer");
-                    System.out.println("3 Lihat profil");
-                    System.out.println("4 Log out");
-                    System.out.println("Enter Keluar");
+                    System.out.println("1       Top Up");
+                    System.out.println("2       Transfer");
+                    System.out.println("3       Lihat profil");
+                    System.out.println("4       Log out");
+                    System.out.println("Enter   Keluar");
+                    System.out.println();
+                    System.out.print("Pilihanmu: ");
 
                     String userPick = scan.nextLine();
                     switch (userPick) {
@@ -88,19 +90,20 @@ public class App {
                             System.out.println();
                             break;
                         case "2":
-                            System.out.println("Masukkan nomor telepom");
+                            System.out.print("Masukkan nomor telepon yang kamu tuju: ");
                             String no = scan.nextLine();
                             if (allUser.findUserByPhone(allUser.allUser, no) != null) {
-                                System.out.println("Mau transfer berapa?");
+                                System.out.print("Mau transfer berapa?");
                                 double jumlahTransfer = scan.nextDouble();
-                                if(currentUser.saldo < jumlahTransfer) System.out.println("Saldo anda tidak mencukupi untuk melakukan transfer ini.");
+                                if(currentUser.saldo < jumlahTransfer) System.out.println("Saldo kamu tidak mencukupi untuk melakukan transfer ini. \n");
                                 else {
                                     currentUser.transfer(allUser.findUserByPhone(allUser.allUser, no), jumlahTransfer);
-                                    System.out.println("Transfer sejumlah " + jumlahTransfer + "Berhasil. Sisa saldo anda " + currentUser.saldo);
+                                    System.out.println("Transfer sejumlah " + jumlahTransfer + "Berhasil.");
+                                    System.out.println(" Sisa saldo kamu " + currentUser.saldo + ".");
                                     System.out.println();
                                 }
                             } else {
-                                System.out.println("Nomor yang kamu tuju tidak terdaftar.");
+                                System.out.println("Nomor yang kamu tuju tidak terdaftar.\n");
                             }
                             break;
                         case "3":
@@ -111,10 +114,8 @@ public class App {
                             currentUser = null;
                             loggedIn = false;
                             break;
-                        case "Enter":
-                            System.exit(0);
-                            break;
                         default:
+                            System.exit(0);
                             break;
                     }
                 }
@@ -124,4 +125,3 @@ public class App {
 
     }
 }
-
