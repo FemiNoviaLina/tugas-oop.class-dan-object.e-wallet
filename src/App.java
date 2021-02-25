@@ -2,6 +2,20 @@ import java.util.*;
 
 public class App {
 
+    static User register(String nama, String email, String noTelp, String password, ArrayList<User> allUser) {
+        User curUser = new User(nama, email, noTelp, password);
+        allUser.add(curUser);
+        return curUser;
+    }
+
+    static User login(ArrayList<User> allUser, String noTelp, String pass, ListUser listUser) {
+        User curUser = listUser.findUserByPhone(allUser, noTelp);
+        if(curUser.password.equals(pass)) {
+            return curUser;
+        }
+        else return null;
+    }
+
     static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -16,7 +30,7 @@ public class App {
         while(true) {
             while(!loggedIn) {
                 System.out.println("Selamat Datang");
-                System.out.println("Apakah anda sudah mempunyai akun? ('sudah' / 'belum')");
+                System.out.println("Apakah Anda sudah mempunyai akun? ('sudah' / 'belum')");
                 System.out.println("(tekan enter untuk keluar)");
                 String val = scan.nextLine();
 
@@ -27,9 +41,9 @@ public class App {
                             String no = scan.nextLine();
                             System.out.println("Masukkan password anda");
                             String pass = scan.nextLine();
-                            if(allUser.login(allUser.allUser, no, pass) == null) continue;
+                            if(login(allUser.allUser, no, pass, allUser) == null) continue;
                             else {
-                                currentUser = allUser.login(allUser.allUser, no, pass);
+                                currentUser = login(allUser.allUser, no, pass, allUser);
                                 loggedIn = true;
                             }
                             break;
@@ -44,8 +58,8 @@ public class App {
                             String phone = scan.nextLine();
                             System.out.println("Masukkan password");
                             String password = scan.nextLine();
-                            currentUser = allUser.register(nama, email, phone, password, allUser.allUser);
-                            allUser.allUser.add(allUser.register(nama, email, phone, password, allUser.allUser));
+                            currentUser = register(nama, email, phone, password, allUser.allUser);
+                            allUser.allUser.add(register(nama, email, phone, password, allUser.allUser));
                             loggedIn = true;
                         }
                         break;
@@ -71,6 +85,7 @@ public class App {
                             System.out.println("Kamu berhasil Top Up sejumlah " + jumlahTopUp + ".");
                             System.out.println("Saldo akun kamu sekarang " + currentUser.saldo + ".");
                             scan.nextLine();
+                            System.out.println();
                             break;
                         case "2":
                             System.out.println("Masukkan nomor telepom");
@@ -81,7 +96,8 @@ public class App {
                                 if(currentUser.saldo < jumlahTransfer) System.out.println("Saldo anda tidak mencukupi untuk melakukan transfer ini.");
                                 else {
                                     currentUser.transfer(allUser.findUserByPhone(allUser.allUser, no), jumlahTransfer);
-                                    System.out.println("Transfer Berhasil. Sisa saldo anda " + currentUser.saldo);
+                                    System.out.println("Transfer sejumlah " + jumlahTransfer + "Berhasil. Sisa saldo anda " + currentUser.saldo);
+                                    System.out.println();
                                 }
                             } else {
                                 System.out.println("Nomor yang kamu tuju tidak terdaftar.");
@@ -89,16 +105,17 @@ public class App {
                             break;
                         case "3":
                             currentUser.showProfile();
+                            System.out.println();
                             break;
                         case "4":
                             currentUser = null;
                             loggedIn = false;
                             break;
-                        case "5":
+                        case "Enter":
                             System.exit(0);
                             break;
                         default:
-                            continue;
+                            break;
                     }
                 }
 
